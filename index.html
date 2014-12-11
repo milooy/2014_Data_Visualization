@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3: Introducing the clipping path</title>
+		<script type="text/javascript" src="d3/d3.v3.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Lato:300,400|Bowlby+One+SC' rel='stylesheet' type='text/css'>
+		<style type="text/css">
+			body {
+				background-color: #faae5c;
+				/* text-align: center; */
+			}
+			#title {
+				font-family: 'Bowlby One SC', cursive;
+				font-size: 4em;
+				color: #3b3131;
+			}
+			#svg2 {
+				float:left;
+			}
+			#svg1 {
+				float:right;
+			}
+		
+		</style>
+		
+	</head>
+	<body>
+		<p id="title">soundlight around NHN NEXT</p>
+		 <svg id="svg2"></svg>
+		 <svg id="svg"></svg>		
+		<div style="position: relative;"><image src="image/map.png" ></image></div>		
+		<div class="p" id="p1" style="position: relative;  left:400px; top: -400px;"><img src="image/flag1.png" onmouseover="this.src='image/flag2.png'" onmouseout="this.src='image/flag1.png'"></img></div>
+		<div class="p" id="p2" style="position: relative;  left:500px; top: -300px;"><img src="image/flag1.png" onmouseover="this.src='image/flag2.png'" onmouseout="this.src='image/flag1.png'"></img></div>
+		<div class="p" id="p3" style="position: relative;  left:740px; top: -500px;"><img src="image/flag1.png" onmouseover="this.src='image/flag2.png'" onmouseout="this.src='image/flag1.png'"></img></div>
+		<div class="p" id="p4" style="position: relative;  left:430px; top: -530px;"><<img src="image/flag1.png" onmouseover="this.src='image/flag2.png'" onmouseout="this.src='image/flag1.png'"></img></div>
+		<div class="p" id="p5" style="position: relative;  left:270px; top: -520px;"><img src="image/flag1.png" onmouseover="this.src='image/flag2.png'" onmouseout="this.src='image/flag1.png'"></img></div>
+		<div class="p" id="p6" style="position: relative;  left:560px; top: -510px;"><img src="image/flag1.png" onmouseover="this.src='image/flag2.png'" onmouseout="this.src='image/flag1.png'"></img></div>
+		<div class="p" id="p7" style="position: relative;  left:840px; top: -620px;"><img src="image/flag1.png" onmouseover="this.src='image/flag2.png'" onmouseout="this.src='image/flag1.png'"></img></div>
+
+	
+		<script type="text/javascript">
+			
+			var w = 450
+			var h = 200
+			
+			
+			document.getElementById("p1").onclick = function(){ init2("./data/CSJ/data_CSJ.csv") };
+			document.getElementById("p2").onclick = function(){ init2("./data/JTS/data_JTS.csv") };
+			document.getElementById("p3").onclick = function(){ init2("./data/JYR/data_JYR.csv") };
+			document.getElementById("p4").onclick = function(){ init2("./data/JYS/data_JYS.csv") };
+			document.getElementById("p5").onclick = function(){ init2("./data/KHJ/data_KHJ.csv") };
+			document.getElementById("p6").onclick = function(){ init2("./data/SCW/data_SCW.csv") };
+			document.getElementById("p7").onclick = function(){ init2("./data/YHS/data_YHS.csv") };
+			
+			var bars = function(data)
+			{
+				
+				//데이터별 max값을 받아옴
+			    max = d3.max(data, function(d) 
+			    {
+			        return d.value
+			    })
+			
+			   //스케일
+			    y = d3.scale.linear()
+			        .domain([0, max])
+			        .range([0, h])
+			
+			    x = d3.scale.ordinal()
+			        .domain(d3.range(data.length))
+			        .rangeBands([0, w], .2)
+			
+				//가져오기
+			    var vis = d3.select("#barchart")
+			    var bars = vis.selectAll("rect.bar").data(data)
+			
+			    //update
+			    bars
+			        .attr("fill", "#ffcd46")
+			        .attr("stroke", "#ffcd46")
+			
+			    //enter
+			    bars.enter()
+			        .append("svg:rect")
+			        .attr("class", "bar")
+			        .attr("fill", "#ffcd46")
+			        .attr("stroke", "#ffcd46")
+			
+			
+			    //exit 
+			    bars.exit()
+			        .remove()
+			
+			
+			    //apply to everything (enter and update)
+			    bars
+			        .attr("stroke-width", 4)
+			        .attr("height", function(d,i) 
+			        {
+			            return y(d.value);
+			        })
+			        .attr("width", x.rangeBand())
+			        .attr("transform", function(d,i) {
+			            return "translate(" + [x(i), h - y(d.value)] + ")"
+			        })
+			
+			}
+			
+			var bars2 = function(data)
+			{
+				
+				//데이터별 max값을 받아옴
+			    max = d3.max(data, function(d) 
+			    {
+			        return d.value
+			    })
+			
+			   //스케일
+			    y = d3.scale.linear()
+			        .domain([0, max])
+			        .range([0, h])
+			
+			    x = d3.scale.ordinal()
+			        .domain(d3.range(data.length))
+			        .rangeBands([0, w], .2)
+			
+				//가져오기
+			    var vis = d3.select("#barchart2")
+			    var bars = vis.selectAll("rect.bar").data(data)
+			
+			    //update
+			    bars
+			        .attr("fill", "#ea8673")
+			        .attr("stroke", "#ea8673")
+			
+			    //enter
+			    bars.enter()
+			        .append("svg:rect")
+			        .attr("class", "bar")
+			        .attr("fill", "#ea8673")
+			        .attr("stroke", "#ea8673")
+			
+			
+			    //exit 
+			    bars.exit()
+			        .remove()
+			
+			
+			    //apply to everything (enter and update)
+			    bars
+			        .attr("stroke-width", 4)
+			        .attr("height", function(d,i) 
+			        {
+			            return y(d.value);
+			        })
+			        .attr("width", x.rangeBand())
+			        .attr("transform", function(d,i) {
+			            return "translate(" + [x(i), h - y(d.value)] + ")"
+			        })
+			
+			}
+			
+			function init() {
+				console.log("haha");
+			}
+
+			function init2(fileRoot)
+			{
+			
+			    //setup the svg
+
+			    var svg = d3.select("#svg")
+			        .attr("width", w+100)
+			        .attr("height", h+100)
+			   
+			    svg.append("svg:rect")
+			        .attr("width", "100%")
+			        .attr("height", "100%")
+			        .attr("stroke", "#000")
+			        .attr("fill", "none")
+			
+			    svg.append("svg:g")
+			        .attr("id", "barchart")
+			        .attr("transform", "translate(50,50)")
+			        
+			        
+			    var svg2 = d3.select("#svg2")
+			        .attr("width", w+100)
+			        .attr("height", h+100)
+			   
+			    svg2.append("svg:rect")
+			        .attr("width", "100%")
+			        .attr("height", "100%")
+			        .attr("stroke", "#000")
+			        .attr("fill", "none")
+			
+			    svg2.append("svg:g")
+			        .attr("id", "barchart2")
+			        .attr("transform", "translate(50,50)")			        
+			    
+/* 			    trans_csv("./data/CSJ/data_CSJ.csv"); */
+			    trans_csv(fileRoot);
+			    
+			}
+						
+			var trans_csv = function(source) {
+			    d3.csv(source, function(data)
+			    {
+			        dataLight = data.map(function(d)
+			        {
+			            light = +d.light
+			            return {
+			                "value":light
+			            }
+			        })
+			        
+			        dataSound = data.map(function(d)
+			        {
+			            sound = +d.sound
+			            return {
+			                "value":sound
+			            }
+			        })
+			        bars(dataLight);
+			        bars2(dataSound);			        
+			    })
+			}
+		</script>
+	</body>
+</html>
