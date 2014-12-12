@@ -16,16 +16,29 @@
 				color: #3b3131;
 				text-align: center;
 			}
+			.txt {
+				font-family: 'Bowlby One SC', cursive;
+				font-size: 2em;
+				color: white;
+				text-align: center;
+			}
+			.sound {
+				margin-right: 30%;
+			}
 			.svgs {
 				text-align: center;
 			}
 			#svg2#svg1 {
 				display: inline-block;
-
 			}
 			
 			#map {
 				text-align: center;
+			}
+			#tip {
+				font-family: 'Lato';
+				font-size: 20pt;
+				color:#dedede;
 			}
 		
 		</style>
@@ -34,7 +47,10 @@
 	<body>
 		<p id="title">5 minute soundlight<br>around NHN NEXT</p>
 		 <div class="svgs">
-			 <svg id="svg2"></svg>
+		 	<p id="tip">click the GPS and wait 2 seconds</p>
+			 <span class="sound txt">sound</span>
+		 	<span class="light txt">light</span><br>
+			 <svg id="svg2"><text x="-10" y="15" fill="red">I love SVG!</text></svg>
 			 <svg id="svg"></svg>			 
 		 </div>
 		 
@@ -61,6 +77,7 @@
 			document.getElementById("p5").onclick = function(){ init("./data/KHJ/data_KHJ.csv") };
 			document.getElementById("p6").onclick = function(){ init("./data/SCW/data_SCW.csv") };
 			document.getElementById("p7").onclick = function(){ init("./data/YHS/data_YHS.csv") };
+			document.getElementById("p7").onclick = function(){ init("./data/YHS/data_YHS.csv") };
 			
 			var bars = function(data)
 			{
@@ -86,18 +103,14 @@
 			
 			    //update
 			    bars
-			        .attr("fill", function(d) {
-			        	return "rgb(0,0,"+(d*10)+")";
-			        })
+			        .attr("fill", "#ffcd46")
 			        .attr("stroke", "#ffcd46")
 			
 			    //enter
 			    bars.enter()
 			        .append("svg:rect")
 			        .attr("class", "bar")
-			        .attr("fill", function(d) {
-			        	return "rgb(0,0,"+(d*10)+")";
-			        })
+			        .attr("fill", "#ffcd46")
 			        .attr("stroke", "#ffcd46")
 			
 			
@@ -173,12 +186,6 @@
 			        })
 			
 			}
-
-			function init(fileRoot)
-			{
-			
-			    //setup the svg
-
 			    var svg = d3.select("#svg")
 			        .attr("width", w+100)
 			        .attr("height", h+100)
@@ -186,8 +193,8 @@
 			    svg.append("svg:rect")
 			        .attr("width", "100%")
 			        .attr("height", "100%")
-/* 			        .attr("stroke", "#ea8673") */
 			        .attr("fill", "#ea8673")
+			        .attr("text", "hahaha");
 			
 			    svg.append("svg:g")
 			        .attr("id", "barchart")
@@ -201,14 +208,15 @@
 			    svg2.append("svg:rect")
 			        .attr("width", "100%")
 			        .attr("height", "100%")
-/* 			        .attr("stroke", "#000") */
 			        .attr("fill", "#ffcd46")
 			
 			    svg2.append("svg:g")
 			        .attr("id", "barchart2")
-			        .attr("transform", "translate(50,50)")			        
+			        .attr("transform", "translate(50,50)")	
+			function init(fileRoot)
+			{
+		        
 			    
-/* 			    trans_csv("./data/CSJ/data_CSJ.csv"); */
 			    trans_csv(fileRoot);
 			    
 			}
